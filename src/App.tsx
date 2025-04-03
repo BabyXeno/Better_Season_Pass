@@ -99,7 +99,6 @@ const EnhancedBattlePass = () => {
   };
 
   useEffect(() => {
-    // Initialize with random quests
     refreshQuests();
   }, []);
 
