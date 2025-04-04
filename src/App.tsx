@@ -137,11 +137,10 @@ const premiumPassRewards = [
   { id: 49, rarity: "mythic", isPremium: true, position: 24, image: "/Better_Pass/images/image49.png" },
   { id: 50, rarity: "legendary", isPremium: true, position: 25, image: "/Better_Pass/images/image50.png" },
 ];
-
 function App() {
   const [currentLevel] = useState(5);
   const [goldAmount] = useState(3580);
-  const [shopBundleTime] = useState("1h 50m 54s");
+  const [shopBundleTime, setShopBundleTime] = useState("1h 50m 54s");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeReward, setActiveReward] = useState<Reward | null>(null);
@@ -203,6 +202,9 @@ function App() {
   const [levelInfo] = useState({ level: 10 });
   const [isClassicDropdownOpen, setIsClassicDropdownOpen] = useState(false);
   const [selectedGameType, setSelectedGameType] = useState("Classic");
+  const [seasonEnds, setSeasonEnds] = useState("82d 22h 35m 0s");
+  const [exclusiveOffersTime, setExclusiveOffersTime] =
+    useState("04h 1m 50s");
 
   const toggleClassicDropdown = () => {
     setIsClassicDropdownOpen(!isClassicDropdownOpen);
@@ -332,6 +334,110 @@ function App() {
     setSelectedMode(mode);
     setIsSoloDropdownOpen(false);
   };
+
+  useEffect(() => {
+    let shopBundleInterval: any;
+    let seasonEndsInterval: any;
+    let exclusiveOffersInterval: any;
+
+    const calculateTimeLeft = (timeString: string) => {
+      const [hours, minutes, seconds] = timeString.split(/[hms ]/).filter(
+        (item) => item !== ""
+      );
+
+      let totalSeconds =
+        parseInt(hours || "0") * 3600 +
+        parseInt(minutes || "0") * 60 +
+        parseInt(seconds || "0");
+
+      return totalSeconds;
+    };
+
+    const updateShopBundleTime = () => {
+      setShopBundleTime((prevTime) => {
+        let totalSeconds = calculateTimeLeft(prevTime);
+
+        totalSeconds--;
+
+        if (totalSeconds < 0) {
+          totalSeconds = 24 * 3600;
+        }
+
+        const newHours = Math.floor(totalSeconds / 3600);
+        const newMinutes = Math.floor((totalSeconds % 3600) / 60);
+        const newSeconds = totalSeconds % 60;
+
+        const formatTime = (value: number) => String(value).padStart(2, "0");
+
+        return `${formatTime(newHours)}h ${formatTime(newMinutes)}m ${formatTime(
+          newSeconds
+        )}s`;
+      });
+    };
+
+    const updateSeasonEnds = () => {
+      setSeasonEnds((prevTime) => {
+        const [days, hours, minutes, seconds] = prevTime
+          .split(/[d hms ]/)
+          .filter((item) => item !== "");
+
+        let totalSeconds =
+          parseInt(days || "0") * 24 * 3600 +
+          parseInt(hours || "0") * 3600 +
+          parseInt(minutes || "0") * 60 +
+          parseInt(seconds || "0");
+
+        totalSeconds--;
+
+        if (totalSeconds < 0) {
+          return "Season Ended!";
+        }
+
+        const newDays = Math.floor(totalSeconds / (24 * 3600));
+        const newHours = Math.floor((totalSeconds % (24 * 3600)) / 3600);
+        const newMinutes = Math.floor((totalSeconds % 3600) / 60);
+        const newSeconds = totalSeconds % 60;
+
+        const formatTime = (value: number) => String(value).padStart(2, "0");
+
+        return `${formatTime(newDays)}d ${formatTime(newHours)}h ${formatTime(
+          newMinutes
+        )}m ${formatTime(newSeconds)}s`;
+      });
+    };
+
+    const updateExclusiveOffersTime = () => {
+      setExclusiveOffersTime((prevTime) => {
+        let totalSeconds = calculateTimeLeft(prevTime);
+
+        totalSeconds--;
+
+        if (totalSeconds < 0) {
+          totalSeconds = 24 * 3600;
+        }
+
+        const newHours = Math.floor(totalSeconds / 3600);
+        const newMinutes = Math.floor((totalSeconds % 3600) / 60);
+        const newSeconds = totalSeconds % 60;
+
+        const formatTime = (value: number) => String(value).padStart(2, "0");
+
+        return `${formatTime(newHours)}h ${formatTime(newMinutes)}m ${formatTime(
+          newSeconds
+        )}s`;
+      });
+    };
+
+    shopBundleInterval = setInterval(updateShopBundleTime, 1000);
+    seasonEndsInterval = setInterval(updateSeasonEnds, 1000);
+    exclusiveOffersInterval = setInterval(updateExclusiveOffersTime, 1000);
+
+    return () => {
+      clearInterval(shopBundleInterval);
+      clearInterval(seasonEndsInterval);
+      clearInterval(exclusiveOffersInterval);
+    };
+  }, []);
 
   return (
     <div
@@ -530,7 +636,7 @@ function App() {
 
           {/* Mobile App Section */}
           <div
-            className="bg-black rounded-lg p-4 border border-gray-800"
+            className="bg-black rounded-lg p-4 border border-gray-800 text-yellow-400"
             style={{
               position: "absolute",
               top: xpBoostBoxPosition.top,
@@ -539,11 +645,10 @@ function App() {
           >
             <div className="text-center mb-4">
               <p className="text-sm">
-                Get{" "}
-                <span className="font-bold text-yellow-400">XP Boost</span> on
-                Mobile App
+                Get <span className="font-bold">XP Boost</span> on Mobile App
               </p>
             </div>
+
             {/*  Removed the grid here */}
             <button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 rounded-lg flex items-center justify-center">
               Get Free GP
@@ -575,7 +680,7 @@ function App() {
 
         {/* Battle Pass Progress */}
         <div
-          className="bg-black p-4 rounded-lg border border-gray-800 mb-4"
+          className="bg-black p-4 rounded-lg border border-gray-80 mb-4"
           style={{
             position: "absolute",
             top: battlePassRewardsPosition.top,
@@ -713,7 +818,7 @@ function App() {
           }}
         >
           <div className="text-center text-yellow-400 text-sm bg-black py-2 rounded-lg border border-yellow-600">
-            Season Ends: 82d 22h 35m 0s
+            Season Ends: {seasonEnds}
           </div>
         </div>
       </div>
@@ -762,13 +867,13 @@ function App() {
             </button>
             <div className="grid grid-cols-2 gap-2">
               <div className="relative">
-              <button
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
-                onClick={toggleClassicDropdown}
-              >
-                <span className="mr-1">⚛️</span> {selectedGameType}{" "}
-                <ChevronDown size={16} className="ml-1" />
-              </button>
+                <button
+                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
+                  onClick={toggleClassicDropdown}
+                >
+                  <span className="mr-1">⚛️</span> {selectedGameType}{" "}
+                  <ChevronDown size={16} className="ml-1" />
+                </button>
 
                 {isClassicDropdownOpen && (
                   <div className="absolute left-0 mt-1 w-full bg-green-700 border border-green-800 rounded shadow-md z-10">
@@ -786,44 +891,44 @@ function App() {
                     </button>
                   </div>
                 )}
-                      </div>
-        <div className="relative">
-          <button
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
-            onClick={toggleSoloDropdown}
-          >
-            <span className="mr-1">🔮</span> {selectedMode}{" "}
-            <ChevronDown size={16} className="ml-1" />
-          </button>
-          {isSoloDropdownOpen && (
-            <div className="absolute left-0 mt-1 w-full bg-blue-700 border border-blue-800 rounded shadow-md z-10">
-              <button
-                className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
-                onClick={() => selectMode("Solo")}
-              >
-                Solo
-              </button>
-              <button
-                className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
-                onClick={() => selectMode("Duo")}
-              >
-                Duo
-              </button>
-              <button
-                className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
-                onClick={() => selectMode("Squads")}
-              >
-                Squads
-              </button>
+              </div>
+              <div className="relative">
+                <button
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
+                  onClick={toggleSoloDropdown}
+                >
+                  <span className="mr-1">🔮</span> {selectedMode}{" "}
+                  <ChevronDown size={16} className="ml-1" />
+                </button>
+                {isSoloDropdownOpen && (
+                  <div className="absolute left-0 mt-1 w-full bg-blue-700 border border-blue-800 rounded shadow-md z-10">
+                    <button
+                      className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
+                      onClick={() => selectMode("Solo")}
+                    >
+                      Solo
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
+                      onClick={() => selectMode("Duo")}
+                    >
+                      Duo
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
+                      onClick={() => selectMode("Squads")}
+                    >
+                      Squads
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          )}
+            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
+              Make Team
+            </button>
+          </div>
         </div>
-      </div>
-      <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
-        Make Team
-      </button>
-    </div>
-  </div>
 
         {/* Social Links */}
         <div
@@ -886,7 +991,7 @@ function App() {
                 EXCLUSIVE OFFERS
               </h2>
               <p className="text-sm text-center text-yellow-200">
-                New Bundles: 04h 1m 50s
+                New Bundles: {exclusiveOffersTime}
               </p>
             </div>
 
@@ -1009,7 +1114,7 @@ function App() {
             {/* Footer */}
             <div className="p-3 rounded-b-lg text-center">
               <p className="text-gray-400 text-xs">
-                &copy; 2024 SurvivX.io. All rights reserved.
+                &copy; 2025 SurvivX.io. All rights reserved.
               </p>
             </div>
           </div>
