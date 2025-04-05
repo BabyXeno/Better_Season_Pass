@@ -447,55 +447,51 @@ function App() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeReward, setActiveReward] = useState<Reward | null>(null);
-  const [streamingBoxPosition, setStreamingBoxPosition] = useState({
+  const streamingBoxPosition = {
     top: 50,
     left: 20,
-  });
-  const [missionsBoxPosition, setMissionsBoxPosition] = useState({
-    top: 200,
+  };
+  const missionsBoxPosition = {
+    top: 225,
     left: 295,
-  });
-  const [xpBoostBoxPosition, setXpBoostBoxPosition] = useState({
-    top: 440,
+  };
+  const xpBoostBoxPosition = {
+    top: 465,
     left: 295,
-  });
-  const [playerInfoPosition, setPlayerInfoPosition] = useState({
-    top: 200,
+  };
+  const playerInfoPosition = {
+    top: 225,
     left: 1042,
-  });
-  const [battlePosition, setBattlePosition] = useState({
+  };
+  const battlePosition = {
     top: 330,
     left: 1042,
-  });
-  const [unlockAllPosition, setUnlockAllPosition] = useState({
-    top: 420,
-    left: 640,
-  });
-  const [seasonEndsPosition, setSeasonEndsPosition] = useState({
-    top: 480,
-    left: 673,
-  });
-  const [battlePassPosition, setBattlePassPosition] = useState({
-    top: 170,
-    left: 663,
-  });
-  const [socialLinksPosition, setSocialLinksPosition] = useState({
+  };
+  const unlockAllPosition = {
+    top: 230,
+    left: 130,
+  };
+  const seasonEndsPosition = {
+    top: 290,
+    left: 160,
+  };
+
+  const socialLinksPosition = {
     top: 50,
     left: 1385,
-  });
-  const [battlePassRewardsPosition, setBattlePassRewardsPosition] =
-    useState({
-      top: 200,
-      left: 512,
-    });
-  const [googlePlayPosition, setGooglePlayPosition] = useState({
+  };
+  const battlePassRewardsPosition = {
+    top: 225,
+    left: 512,
+  };
+  const googlePlayPosition = {
     top: 350,
     left: 20,
-  });
-  const [appStorePosition, setAppStorePosition] = useState({
+  };
+  const appStorePosition = {
     top: 410,
     left: 20,
-  });
+  };
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [isSoloDropdownOpen, setIsSoloDropdownOpen] = useState(false);
   const [selectedMode, setSelectedMode] = useState("Solo");
@@ -508,12 +504,10 @@ function App() {
   const [seasonEnds, setSeasonEnds] = useState("82d 22h 35m 0s");
   const [exclusiveOffersTime, setExclusiveOffersTime] =
     useState("04h 1m 50s");
-  const [gameBannerImage, setGameBannerImage] =
-    useState("/Better_Pass/images/default_banner.png");
-  const [battlePassTitlePosition, setBattlePassTitlePosition] = useState({
-    top: 395,
+  const battlePassTitlePosition = {
+    top: 430,
     left: 487,
-  });
+  };
 
   const toggleClassicDropdown = () => {
     setIsClassicDropdownOpen(!isClassicDropdownOpen);
@@ -549,13 +543,6 @@ function App() {
       container?.removeEventListener("scroll", handleScrollPosition);
     };
   }, []);
-  const isLevelVisible = (level: number) => {
-    const levelPosition = (level - 1) * rewardWidth;
-    return (
-      levelPosition >= scrollPosition &&
-      levelPosition <= scrollPosition + containerWidth
-    );
-  };
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
       case "common":
@@ -784,7 +771,7 @@ function App() {
             <Settings size={16} />
           </button>
           <button className="bg-purple-700 hover:bg-purple-800 px-4 py-1 rounded-md">
-            Support
+            LOGIN
           </button>
         </div>
       </div>
@@ -1007,9 +994,8 @@ function App() {
             </div>
           </div>
         </div>
-
-        {/* Battle Pass Progress */}
-        <div
+                {/* Battle Pass Progress */}
+                <div
           className="bg-black p-4 rounded-lg border border-gray-800 mb-4"
           style={{
             position: "absolute",
@@ -1017,665 +1003,676 @@ function App() {
             left: battlePassRewardsPosition.left,
           }}
         >
-          {/* Level Numbers */}
-          <div className="flex relative justify-start">
-            {[...Array(25)].map((_, index) => {
-              const level = index + 1;
-              const freeReward = freePassRewards[index];
-              const premiumReward = premiumPassRewards[index];
-
-              const isVisible =
-                (freeReward && isLevelVisible(freeReward.position)) ||
-                (premiumReward && isLevelVisible(premiumReward.position));
-              let leftPosition = `${
-                (rewardWidth * index) / (rewardWidth * 24) * 100
-              }%`;
-
-              return isVisible ? (
-                <div
-                  key={index}
-                  className="absolute"
-                  style={{
-                    left: leftPosition,
-                    width: `${100 / 25}%`,
-                    textAlign: "center",
-                    top: "-30px",
-                  }}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center mx-auto ${
-                      level <= currentLevel
-                        ? "bg-yellow-500 text-black"
-                        : "bg-gray-700 text-white"
-                    } font-bold text-sm`}
-                  >
-                    {level}
-                  </div>
-                </div>
-              ) : null;
-            })}
-          </div>
-
-          {/* Combined Rewards */}
+          {/* Combined Battle Pass with Level Numbers */}
           <div
-            className="flex overflow-x-auto scrollbar-hide relative mt-10"
-            ref={scrollContainerRef}
+            className="relative mt-2" /* Reduced top margin */
             style={{ width: `${containerWidth}px` }}
           >
-            <div className="flex flex-col">
-              {/* Free Pass Rewards */}
-              <div className="flex">
-                {freePassRewards.map((reward) => (
-                  <div
-                    key={reward.id}
-                    className="relative flex-shrink-0 w-24 cursor-pointer"
-                    onClick={() => setActiveReward(reward)}
-                  >
-                    <div
-                      className={`bg-gray-800 p-1 rounded border ${getRarityBorder(
-                        reward.rarity
-                      )}`}
-                    >
-                      <div className="flex items-center justify-center h-12">
-                        <img
-                          src={reward.image}
-                          alt={`Reward ${reward.id}`}
-                          className="w-10 h-10 object-contain"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            {/* Level Numbers Track - With reduced top padding */}
+            <div
+              className="overflow-hidden pb-2" /* Added bottom padding instead of top */
+              style={{ width: `${containerWidth}px` }}
+            >
+              <div
+                className="flex"
+                style={{
+                  width: `${24 * 25}px`,
+                  transform: `translateX(-${scrollPosition}px)`,
+                }}
+              >
+                {[...Array(25)].map((_, index) => {
+                  const level = index + 1;
 
-              {/* Premium Pass Rewards */}
-              <div className="flex">
-                {premiumPassRewards.map((reward) => (
-                  <div
-                    key={reward.id}
-                    className="relative flex-shrink-0 w-24 cursor-pointer"
-                    onClick={() => setActiveReward(reward)}
-                  >
-                    <div
-                      className={`bg-gray-800 p-1 rounded border ${getRarityBorder(
-                        reward.rarity
-                      )}`}
-                    >
-                      <div className="flex items-center justify-center h-12">
-                        <img
-                          src={reward.image}
-                          alt={`Reward ${reward.id}`}
-                          className="w-10 h-10 object-contain"
-                        />
+                  return (
+                    <div key={`level-${level}`} className="flex-shrink-0 w-24">
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center mx-auto ${
+                          level <= currentLevel
+                            ? "bg-yellow-500 text-black"
+                            : "bg-gray-700 text-white"
+                        } font-bold text-sm`}
+                      >
+                        {level}
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Scrollable Rewards Container - Moved closer to level numbers */}
+            <div
+              className="flex overflow-x-auto scrollbar-hide"
+              ref={scrollContainerRef}
+              onScroll={(e) => {
+                // Update scroll position when rewards container scrolls
+                const target = e.target as HTMLDivElement;
+                setScrollPosition(target.scrollLeft);
+              }}
+            >
+              <div className="flex flex-col">
+                {/* Free Pass Rewards */}
+                <div className="flex">
+                  {freePassRewards.map((reward) => (
+                    <div
+                      key={reward.id}
+                      className="relative flex-shrink-0 w-24 cursor-pointer"
+                      onClick={() => setActiveReward(reward)}
+                    >
+                      <div
+                        className={`bg-gray-800 p-1 rounded border ${getRarityBorder(
+                          reward.rarity
+                        )}`}
+                      >
+                        <div className="flex items-center justify-center h-12">
+                          <img
+                            src={reward.image}
+                            alt={`Reward ${reward.id}`}
+                            className="w-10 h-10 object-contain"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Premium Pass Rewards */}
+                <div className="flex">
+                  {premiumPassRewards.map((reward) => (
+                    <div
+                      key={reward.id}
+                      className="relative flex-shrink-0 w-24 cursor-pointer"
+                      onClick={() => setActiveReward(reward)}
+                    >
+                      <div
+                        className={`bg-gray-800 p-1 rounded border ${getRarityBorder(
+                          reward.rarity
+                        )}`}
+                      >
+                        <div className="flex items-center justify-center h-12">
+                          <img
+                            src={reward.image}
+                            alt={`Reward ${reward.id}`}
+                            className="w-10 h-10 object-contain"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Unlock Premium Button */}
-        <div
-          style={{
-            position: "absolute",
-            top: unlockAllPosition.top,
-            left: unlockAllPosition.left,
-          }}
-        >
-          <button
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-lg mb-4 relative overflow-hidden"
-            onClick={() => setShowPremiumModal(true)}
+          {/* Unlock Premium Button */}
+          <div
+            style={{
+              position: "absolute",
+              top: unlockAllPosition.top,
+              left: unlockAllPosition.left,
+            }}
           >
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-32 h-32 bg-yellow-400 rounded-full animate-ping opacity-20"></div>
-            </div>
-            <span className="relative z-10 flex items-center justify-center">
-              <Crown size={20} className="mr-2" />
-              UNLOCK ALL GOLD ITEMS
-              <Crown size={20} className="ml-2" />
-            </span>
-          </button>
-        </div>
+            <button
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-3 rounded-lg mb-4 relative overflow-hidden"
+              onClick={() => setShowPremiumModal(true)}
+            >
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-32 h-32 bg-yellow-400 rounded-full animate-ping opacity-20"></div>
+              </div>
+              <span className="relative z-10 flex items-center justify-center">
+                <Crown size={20} className="mr-2" />
+                UNLOCK ALL GOLD ITEMS
+                <Crown size={20} className="ml-2" />
+              </span>
+            </button>
+          </div>
 
-        {/* Season Timer */}
-        <div
-          style={{
-            position: "absolute",
-            top: seasonEndsPosition.top,
-            left: seasonEndsPosition.left,
-          }}
-        >
-          <div className="text-center text-yellow-400 text-sm bg-black py-2 rounded-lg border border-yellow-600">
-            Season Ends: {seasonEnds}
+          {/* Season Timer */}
+          <div
+            style={{
+              position: "absolute",
+              top: seasonEndsPosition.top,
+              left: seasonEndsPosition.left,
+            }}
+          >
+            <div className="text-center text-yellow-400 text-sm bg-black py-2 rounded-lg border border-yellow-600">
+              Season Ends: {seasonEnds}
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Right Column - Player Info & Battle */}
-      <div className="col-span-3">
-        {/* Player Info */}
-        <div
-          className="bg-black rounded-lg p-4 mb-4 border border-gray-700"
-          style={{
-            position: "absolute",
-            top: playerInfoPosition.top,
-            left: playerInfoPosition.left,
-          }}
-        >
-          <div className="flex items-center">
-            <div className="relative">
-              <img
-                src="/Better_Pass/images/imageprofile.png"
-                alt="Player Avatar"
-                className="w-16 h-16 rounded-full bg-orange-500"
-              />
-            </div>
-            <div className="ml-4 flex-grow">
-              <div className="bg-black text-yellow-300 text-center py-1 px-2 rounded mb-2 font-bold">
-                Prestige 0
+        {/* Right Column - Player Info & Battle */}
+        <div className="col-span-3">
+          {/* Player Info */}
+          <div
+            className="bg-black rounded-lg p-4 mb-4 border border-gray-700"
+            style={{
+              position: "absolute",
+              top: playerInfoPosition.top,
+              left: playerInfoPosition.left,
+            }}
+          >
+            <div className="flex items-center">
+              <div className="relative">
+                <img
+                  src="/Better_Pass/images/imageprofile.png"
+                  alt="Player Avatar"
+                  className="w-16 h-16 rounded-full bg-orange-500"
+                />
               </div>
-              <button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded">
-                Loadout
+              <div className="ml-4 flex-grow">
+                <div className="bg-black text-yellow-300 text-center py-1 px-2 rounded mb-2 font-bold">
+                  Prestige 0
+                </div>
+                <button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded">
+                  Loadout
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Battle Button */}
+          <div
+            style={{
+              position: "absolute",
+              top: battlePosition.top,
+              left: battlePosition.left,
+            }}
+          >
+            <div className="space-y-2">
+              <button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xl font-bold py-3 rounded">
+                Battle
+              </button>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="relative">
+                  <button
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
+                    onClick={toggleClassicDropdown}
+                  >
+                    <span className="mr-1">⚛️</span> {selectedGameType}{" "}
+                    <ChevronDown size={16} className="ml-1" />
+                  </button>
+
+                  {isClassicDropdownOpen && (
+                    <div className="absolute left-0 mt-1 w-full bg-green-700 border border-green-800 rounded shadow-md z-10">
+                      <button
+                        className="block w-full text-left px-4 py-2 text-white hover:bg-green-800"
+                        onClick={() => selectGameType("Classic")}
+                      >
+                        Classic
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-white hover:bg-green-800"
+                        onClick={() => selectGameType("Ranked")}
+                      >
+                        Ranked
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <div className="relative">
+                  <button
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
+                    onClick={toggleSoloDropdown}
+                  >
+                    <span className="mr-1">🔮</span> {selectedMode}{" "}
+                    <ChevronDown size={16} className="ml-1" />
+                  </button>
+                  {isSoloDropdownOpen && (
+                    <div className="absolute left-0 mt-1 w-full bg-blue-700 border border-blue-800 rounded shadow-md z-10">
+                      <button
+                        className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
+                        onClick={() => selectMode("Solo")}
+                      >
+                        Solo
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
+                        onClick={() => selectMode("Duo")}
+                      >
+                        Duo
+                      </button>
+                      <button
+                        className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
+                        onClick={() => selectMode("Squads")}
+                      >
+                        Squads
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+              <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
+                Make Team
               </button>
             </div>
           </div>
-        </div>
 
-        {/* Battle Button */}
-        <div
-          style={{
-            position: "absolute",
-            top: battlePosition.top,
-            left: battlePosition.left,
-          }}
-        >
-          <div className="space-y-2">
-            <button className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xl font-bold py-3 rounded">
-              Battle
-            </button>
-            <div className="grid grid-cols-2 gap-2">
-              <div className="relative">
-                <button
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
-                  onClick={toggleClassicDropdown}
-                >
-                  <span className="mr-1">⚛️</span> {selectedGameType}{" "}
-                  <ChevronDown size={16} className="ml-1" />
-                </button>
-
-                {isClassicDropdownOpen && (
-                  <div className="absolute left-0 mt-1 w-full bg-green-700 border border-green-800 rounded shadow-md z-10">
-                    <button
-                      className="block w-full text-left px-4 py-2 text-white hover:bg-green-800"
-                      onClick={() => selectGameType("Classic")}
-                    >
-                      Classic
-                    </button>
-                    <button
-                      className="block w-full text-left px-4 py-2 text-white hover:bg-green-800"
-                      onClick={() => selectGameType("Ranked")}
-                    >
-                      Ranked
-                    </button>
-                  </div>
-                )}
-              </div>
-              <div className="relative">
-                <button
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded flex items-center justify-center w-full"
-                  onClick={toggleSoloDropdown}
-                >
-                  <span className="mr-1">🔮</span> {selectedMode}{" "}
-                  <ChevronDown size={16} className="ml-1" />
-                </button>
-                {isSoloDropdownOpen && (
-                  <div className="absolute left-0 mt-1 w-full bg-blue-700 border border-blue-800 rounded shadow-md z-10">
-                    <button
-                      className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
-                      onClick={() => selectMode("Solo")}
-                    >
-                      Solo
-                    </button>
-                    <button
-                      className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
-                      onClick={() => selectMode("Duo")}
-                    >
-                      Duo
-                    </button>
-                    <button
-                      className="block w-full text-left px-4 py-2 text-white hover:bg-blue-800"
-                      onClick={() => selectMode("Squads")}
-                    >
-                      Squads
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-            <button className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded">
-              Make Team
-            </button>
-          </div>
-        </div>
-
-        {/* Social Links */}
-        <div
-          style={{
-            position: "absolute",
-            top: socialLinksPosition.top,
-            left: socialLinksPosition.left,
-          }}
-        >
-          <div className="flex justify-center space-x-2 mt-4">
-            <a
-              href="#"
-              className="text-blue-500 hover:text-blue-400 transition-colors"
-            >
-              <Facebook size={20} />
-            </a>
-            <a
-              href="#"
-              className="text-blue-400 hover:text-blue-300 transition-colors"
-            >
-              <Twitter size={20} />
-            </a>
-            <a
-              href="#"
-              className="text-pink-500 hover:text-pink-400 transition-colors"
-            >
-              <Instagram size={20} />
-            </a>
-            <a
-              href="#"
-              className="text-red-500 hover:text-red-400 transition-colors"
-            >
-              <Youtube size={20} />
-            </a>
-            <a
-              href="#"
-              className="text-purple-500 hover:text-purple-400 transition-colors"
-            >
-              <MessageSquare size={20} />
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Premium Modal */}
-      {showPremiumModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-          <div className="bg-gradient-to-b from-gray-900 to-black rounded-lg w-full max-w-2xl border border-gray-700 shadow-2xl relative">
-            {/* Close button */}
-            <button
-              onClick={() => setShowPremiumModal(false)}
-              className="absolute top-2 right-2 text-white hover:text-gray-300 z-10"
-            >
-              <X size={24} />
-            </button>
-
-            {/* Header */}
-            <div className="bg-gradient-to-r from-yellow-800 to-yellow-600 p-3 rounded-t-lg">
-              <h2 className="text-xl font-bold text-center text-white">
-                EXCLUSIVE OFFERS
-              </h2>
-              <p className="text-sm text-center text-yellow-200">
-                New Bundles: {exclusiveOffersTime}
-              </p>
-            </div>
-
-            <div className="p-4 flex flex-col md:flex-row gap-4">
-              {/* Coin Purchase Section */}
-              <div className="w-full md:w-1/3">
-                <div className="bg-gray-800 bg-opacity-60 p-3 rounded-lg mb-3">
-                  <h3 className="text-center text-white font-bold mb-2">
-                    Get PARMA Crates
-                  </h3>
-
-                  <div className="grid grid-cols-2 gap-2 mb-3">
-                    <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
-                      <div className="flex justify-center items-center mb-1">
-                        <img
-                          src="/Better_Pass/images/imagegp.png"
-                          alt="GP"
-                          className="w-5 h-5 mr-1"
-                        />
-                        <span className="text-yellow-400 font-bold">3000</span>
-                      </div>
-                      <div className="bg-blue-600 rounded py-1 text-white font-bold">
-                        $9.99
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
-                      <div className="flex justify-center items-center mb-1">
-                        <img
-                          src="/Better_Pass/images/imagegp.png"
-                          alt="GP"
-                          className="w-5 h-5 mr-1"
-                        />
-                        <span className="text-yellow-400 font-bold">8300</span>
-                      </div>
-                      <div className="bg-blue-600 rounded py-1 text-white font-bold">
-                        $24.99
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
-                      <div className="flex justify-center items-center mb-1">
-                        <img
-                          src="/Better_Pass/images/imagegp.png"
-                          alt="GP"
-                          className="w-5 h-5 mr-1"
-                        />
-                        <span className="text-yellow-400 font-bold">
-                          16000
-                        </span>
-                      </div>
-                      <div className="bg-blue-600 rounded py-1 text-white font-bold">
-                        $39.99
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
-                      <div className="flex justify-center items-center mb-1">
-                        <img
-                          src="/Better_Pass/images/imagegp.png"
-                          alt="GP"
-                          className="w-5 h-5 mr-1"
-                        />
-                        <span className="text-yellow-400 font-bold">
-                          53000
-                        </span>
-                      </div>
-                      <div className="bg-blue-600 rounded py-1 text-white font-bold">
-                        $99.99
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* Battle Pass Section */}
-              <div className="w-full md:w-1/3">
-                <div className="bg-gray-800 bg-opacity-60 p-3 rounded-lg mb-3">
-                  <h3 className="text-center text-white font-bold mb-2">
-                    Unlock ALL Items
-                  </h3>
-                  <div className="text-center text-yellow-300 text-sm">
-                    Get instant access to all premium rewards!
-                  </div>
-
-                  <div className="mt-3 flex justify-center">
-                    <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg">
-                      UNLOCK ALL FOR $49.99
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Featured Item Section */}
-              <div className="w-full md:w-1/3">
-                <div className="bg-gray-800 bg-opacity-60 p-3 rounded-lg mb-3">
-                  <h3 className="text-center text-white font-bold mb-2">
-                    Featured Item
-                  </h3>
-
-                  <div className="relative overflow-hidden rounded-md">
-                    <img
-                      src="/Better_Pass/images/image51.png"
-                      alt="Featured Item"
-                      className="w-full h-32 object-cover rounded-md"
-                    />
-                    <div className="absolute inset-0 bg-black opacity-20"></div>
-                    <div className="absolute bottom-0 left-0 p-2 text-white">
-                      <div className="font-bold">Legendary Skin</div>
-                      <div className="text-sm">Limited Time Offer</div>
-                    </div>
-                  </div>
-
-                  <div className="mt-3 flex justify-center">
-                    <button className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg">
-                      GET IT NOW!
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* Footer */}
-            <div className="p-3 rounded-b-lg text-center">
-              <p className="text-gray-400 text-xs">
-                &copy; 2025 SurvivX.io. All rights reserved.
-              </p>
+          {/* Social Links */}
+          <div
+            style={{
+              position: "absolute",
+              top: socialLinksPosition.top,
+              left: socialLinksPosition.left,
+            }}
+          >
+            <div className="flex justify-center space-x-2 mt-4">
+              <a
+                href="#"
+                className="text-blue-500 hover:text-blue-400 transition-colors"
+              >
+                <Facebook size={20} />
+              </a>
+              <a
+                href="#"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                <Twitter size={20} />
+              </a>
+              <a
+                href="#"
+                className="text-pink-500 hover:text-pink-400 transition-colors"
+              >
+                <Instagram size={20} />
+              </a>
+              <a
+                href="#"
+                className="text-red-500 hover:text-red-400 transition-colors"
+              >
+                <Youtube size={20} />
+              </a>
+              <a
+                href="#"
+                className="text-purple-500 hover:text-purple-400 transition-colors"
+              >
+                <MessageSquare size={20} />
+              </a>
             </div>
           </div>
         </div>
-      )}
 
-      {/* Premium Bundles Modal */}
-      {showBundleModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg p-6 w-[800px] max-w-[90%] relative">
-            <button
-              className="absolute top-2 right-2 text-gray-400 hover:text-white"
-              onClick={() => setShowBundleModal(false)}
-            >
-              <X size={24} />
-            </button>
-            <h2 className="text-2xl text-center mb-4 text-white">
-              EXCLUSIVE OFFERS
-            </h2>
-            <p className="text-center text-yellow-400 mb-6">
-              New Bundles: {shopBundleTime}
-            </p>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Bundle 1 */}
-              <div className="border-2 border-purple-500 rounded-lg p-4 relative">
-                <div className="absolute -top-2 -left-2 bg-yellow-500 transform rotate-[-45deg] px-2 py-1 text-black font-bold">
-                  5% OFF
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Use actual premium rewards here */}
-                  <div className="border-2 border-green-500 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[0].image} // Premium Reward 1
-                      alt="Premium Reward 1"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[1].image} // Premium Reward 2
-                      alt="Premium Reward 2"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="border-2 border-purple-500 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[2].image} // Premium Reward 3
-                      alt="Premium Reward 3"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center justify-center">
-                  <button className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-4">
-                    <img
-                      src="/Better_Pass/images/imagegp.png"
-                      alt="GP"
-                      className="w-5 h-5 mr-2"
-                    />
-                    <span className="text-yellow-400 font-bold">1111</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Bundle 2 */}
-              <div className="border-2 border-purple-500 rounded-lg p-4 relative">
-                <div className="absolute -top-2 -left-2 bg-yellow-500 transform rotate-[-45deg] px-2 py-1 text-black font-bold">
-                  10% OFF
-                </div>
-                <div className="grid grid-cols-3 gap-3">
-                  {/* Use actual premium rewards here */}
-                  <div className="border-2 border-green-500 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[3].image} // Premium Reward 4
-                      alt="Premium Reward 4"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[4].image} // Premium Reward 5
-                      alt="Premium Reward 5"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[5].image} // Premium Reward 6
-                      alt="Premium Reward 6"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div className="col-start-2 border-2 border-purple-500 p-2 flex justify-center items-center h-16">
-                    <img
-                      src={premiumPassRewards[6].image} // Premium Reward 7
-                      alt="Premium Reward 7"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center justify-center">
-                  <button className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-4">
-                    <img
-                      src="/Better_Pass/images/imagegp.png"
-                      alt="GP"
-                      className="w-5 h-5 mr-2"
-                    />
-                    <span className="text-yellow-400 font-bold">1323</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Reward Details Modal */}
-      {activeReward && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-40 backdrop-blur-sm">
-          <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg p-6 max-w-md w-full border-2 border-gray-700 shadow-2xl">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-xl font-bold flex items-center text-yellow-400">
-                <Trophy size={20} className="mr-2" />
-                Reward Details
-              </h3>
+        {/* Premium Modal */}
+        {showPremiumModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
+            <div className="bg-gradient-to-b from-gray-900 to-black rounded-lg w-full max-w-2xl border border-gray-700 shadow-2xl relative">
+              {/* Close button */}
               <button
-                onClick={() => setActiveReward(null)}
-                className="text-gray-400 hover:text-white bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center transition-all hover:bg-gray-600"
+                onClick={() => setShowPremiumModal(false)}
+                className="absolute top-2 right-2 text-white hover:text-gray-300 z-10"
               >
                 <X size={24} />
               </button>
-            </div>
 
-            <div className="flex items-center justify-center mb-6">
-              <div
-                className={`${getRarityColor(activeReward.rarity)} ${getRarityGlow(activeReward.rarity)} w-32 h-32 rounded-lg flex items-center justify-center border-4 ${getRarityBorder(activeReward.rarity)} transform transition-all hover:scale-105`}
-              >
-                {activeReward.image ? (
-                  <img
-                    src={activeReward.image}
-                    alt={`Reward ${activeReward.id}`}
-                    className="w-24 h-24 object-contain"
-                  />
-                ) : (
-                  React.cloneElement(activeReward.icon as React.ReactElement, {
-                    size: 64,
-                  })
-                )}
+              {/* Header */}
+              <div className="bg-gradient-to-r from-yellow-800 to-yellow-600 p-3 rounded-t-lg">
+                <h2 className="text-xl font-bold text-center text-white">
+                  EXCLUSIVE OFFERS
+                </h2>
+                <p className="text-sm text-center text-yellow-200">
+                  New Bundles: {exclusiveOffersTime}
+                </p>
               </div>
-            </div>
 
-            <div className="space-y-2 bg-gray-800 rounded-lg p-4 border border-gray-700">
-              <div className="flex justify-between">
-                <span className="text-gray-400 flex items-center">
-                  <Star size={16} className="mr-1 text-yellow-400" />
-                  Rarity:
-                </span>
-                <span
-                  className={`font-bold ${getRarityTextColor(
-                    activeReward.rarity
-                  )}`}
-                >
-                  {activeReward.rarity.charAt(0).toUpperCase() +
-                    activeReward.rarity.slice(1)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400 flex items-center">
-                  <Medal size={16} className="mr-1 text-yellow-400" />
-                  Level:
-                </span>
-                <span className="font-bold">{activeReward.position}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-gray-400 flex items-center">
-                  <Crown size={16} className="mr-1 text-yellow-400" />
-                  Pass:
-                </span>
-                <span
-                  className={`font-bold ${
-                    activeReward.isPremium ? "text-yellow-400" : "text-white"
-                  }`}
-                >
-                  {activeReward.isPremium ? "Premium" : "Free"}
-                </span>
-              </div>
-            </div>
+              <div className="p-4 flex flex-col md:flex-row gap-4">
+                {/* Coin Purchase Section */}
+                <div className="w-full md:w-1/3">
+                  <div className="bg-gray-800 bg-opacity-60 p-3 rounded-lg mb-3">
+                    <h3 className="text-center text-white font-bold mb-2">
+                      Get PARMA Crates
+                    </h3>
 
-            <div className="mt-6">
-              <button
-                className={`w-full py-3 rounded-lg font-bold transition-all transform hover:scale-105 flex items-center justify-center ${
-                  levelInfo.level >= activeReward.position &&
-                  (!activeReward.isPremium || isPremium)
-                    ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg shadow-green-500/30 text-white"
-                    : "bg-gradient-to-r from-gray-600 to-gray-700 cursor-not-allowed text-gray-300"
-                }`}
-                disabled={
-                  levelInfo.level < activeReward.position ||
-                  (activeReward.isPremium && !isPremium)
-                }
-              >
-                {levelInfo.level >= activeReward.position &&
-                (!activeReward.isPremium || isPremium) ? (
-                  <>
-                    <Check size={20} className="mr-2" />
-                    Claim Reward
-                  </>
-                ) : levelInfo.level < activeReward.position ? (
-                  <>
-                    <Lock size={20} className="mr-2" />
-                    {`Unlock at Level ${activeReward.position}`}
-                  </>
-                ) : activeReward.isPremium && !isPremium ? (
-                  <>
-                    <Lock size={20} className="mr-2" />
-                    Premium Only
-                  </>
-                ) : (
-                  <>
-                    <Lock size={20} className="mr-2" />
-                    Locked
-                  </>
-                )}
-              </button>
+                    <div className="grid grid-cols-2 gap-2 mb-3">
+                      <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
+                        <div className="flex justify-center items-center mb-1">
+                          <img
+                            src="/Better_Pass/images/imagegp.png"
+                            alt="GP"
+                            className="w-5 h-5 mr-1"
+                          />
+                          <span className="text-yellow-400 font-bold">
+                            3000
+                          </span>
+                        </div>
+                        <div className="bg-blue-600 rounded py-1 text-white font-bold">
+                          $9.99
+                        </div>
+                      </div>
+
+                      <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
+                        <div className="flex justify-center items-center mb-1">
+                          <img
+                            src="/Better_Pass/images/imagegp.png"
+                            alt="GP"
+                            className="w-5 h-5 mr-1"
+                          />
+                          <span className="text-yellow-400 font-bold">
+                            8300
+                          </span>
+                        </div>
+                        <div className="bg-blue-600 rounded py-1 text-white font-bold">
+                          $24.99
+                        </div>
+                      </div>
+
+                      <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
+                        <div className="flex justify-center items-center mb-1">
+                          <img
+                            src="/Better_Pass/images/imagegp.png"
+                            alt="GP"
+                            className="w-5 h-5 mr-1"
+                          />
+                          <span className="text-yellow-400 font-bold">
+                            16000
+                          </span>
+                        </div>
+                        <div className="bg-blue-600 rounded py-1 text-white font-bold">
+                          $39.99
+                        </div>
+                      </div>
+
+                      <div className="bg-blue-900 border-2 border-blue-700 rounded p-2 text-center cursor-pointer hover:brightness-110">
+                        <div className="flex justify-center items-center mb-1">
+                          <img
+                            src="/Better_Pass/images/imagegp.png"
+                            alt="GP"
+                            className="w-5 h-5 mr-1"
+                          />
+                          <span className="text-yellow-400 font-bold">
+                            53000
+                          </span>
+                        </div>
+                        <div className="bg-blue-600 rounded py-1 text-white font-bold">
+                          $99.99
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Battle Pass Section */}
+                <div className="w-full md:w-1/3">
+                  <div className="bg-gray-800 bg-opacity-60 p-3 rounded-lg mb-3">
+                    <h3 className="text-center text-white font-bold mb-2">
+                      Unlock ALL Items
+                    </h3>
+                    <div className="text-center text-yellow-300 text-sm">
+                      Get instant access to all premium rewards!
+                    </div>
+
+                    <div className="mt-3 flex justify-center">
+                      <button className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold py-2 px-4 rounded-lg">
+                        UNLOCK ALL FOR $49.99
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                {/* Featured Item Section */}
+                <div className="w-full md:w-1/3">
+                  <div className="bg-gray-800 bg-opacity-60 p-3 rounded-lg mb-3">
+                    <h3 className="text-center text-white font-bold mb-2">
+                      Featured Item
+                    </h3>
+
+                    <div className="relative overflow-hidden rounded-md">
+                      <img
+                        src="/Better_Pass/images/image51.png"
+                        alt="Featured Item"
+                        className="w-full h-32 object-cover rounded-md"
+                      />
+                      <div className="absolute inset-0 bg-black opacity-20"></div>
+                      <div className="absolute bottom-0 left-0 p-2 text-white">
+                        <div className="font-bold">Legendary Skin</div>
+                        <div className="text-sm">Limited Time Offer</div>
+                      </div>
+                    </div>
+
+                    <div className="mt-3 flex justify-center">
+                      <button className="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-lg">
+                        GET IT NOW!
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* Footer */}
+              <div className="p-3 rounded-b-lg text-center">
+                <p className="text-gray-400 text-xs">
+                  &copy; 2025 SurvivX.io. All rights reserved.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {/* Premium Bundles Modal */}
+        {showBundleModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="bg-gray-800 rounded-lg p-6 w-[800px] max-w-[90%] relative">
+              <button
+                className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                onClick={() => setShowBundleModal(false)}
+              >
+                <X size={24} />
+              </button>
+              <h2 className="text-2xl text-center mb-4 text-white">
+                EXCLUSIVE OFFERS
+              </h2>
+              <p className="text-center text-yellow-400 mb-6">
+                New Bundles: {shopBundleTime}
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Bundle 1 */}
+                <div className="border-2 border-purple-500 rounded-lg p-4 relative">
+                  <div className="absolute -top-2 -left-2 bg-yellow-500 transform rotate-[-45deg] px-2 py-1 text-black font-bold">
+                    5% OFF
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Use actual premium rewards here */}
+                    <div className="border-2 border-green-500 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[0].image} // Premium Reward 1
+                        alt="Premium Reward 1"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[1].image} // Premium Reward 2
+                        alt="Premium Reward 2"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="border-2 border-purple-500 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[2].image} // Premium Reward 3
+                        alt="Premium Reward 3"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-center">
+                    <button className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-4">
+                      <img
+                        src="/Better_Pass/images/imagegp.png"
+                        alt="GP"
+                        className="w-5 h-5 mr-2"
+                      />
+                      <span className="text-yellow-400 font-bold">1111</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Bundle 2 */}
+                <div className="border-2 border-purple-500 rounded-lg p-4 relative">
+                  <div className="absolute -top-2 -left-2 bg-yellow-500 transform rotate-[-45deg] px-2 py-1 text-black font-bold">
+                    10% OFF
+                  </div>
+                  <div className="grid grid-cols-3 gap-3">
+                    {/* Use actual premium rewards here */}
+                    <div className="border-2 border-green-500 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[3].image} // Premium Reward 4
+                        alt="Premium Reward 4"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[4].image} // Premium Reward 5
+                        alt="Premium Reward 5"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[5].image} // Premium Reward 6
+                        alt="Premium Reward 6"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                    <div className="col-start-2 border-2 border-purple-500 p-2 flex justify-center items-center h-16">
+                      <img
+                        src={premiumPassRewards[6].image} // Premium Reward 7
+                        alt="Premium Reward 7"
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4 flex items-center justify-center">
+                    <button className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-4">
+                      <img
+                        src="/Better_Pass/images/imagegp.png"
+                        alt="GP"
+                        className="w-5 h-5 mr-2"
+                      />
+                      <span className="text-yellow-400 font-bold">1323</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Reward Details Modal */}
+        {activeReward && (
+          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-40 backdrop-blur-sm">
+            <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg p-6 max-w-md w-full border-2 border-gray-700 shadow-2xl">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold flex items-center text-yellow-400">
+                  <Trophy size={20} className="mr-2" />
+                  Reward Details
+                </h3>
+                <button
+                  onClick={() => setActiveReward(null)}
+                  className="text-gray-400 hover:text-white bg-gray-700 rounded-full w-8 h-8 flex items-center justify-center transition-all hover:bg-gray-600"
+                >
+                  <X size={24} />
+                </button>
+              </div>
+
+              <div className="flex items-center justify-center mb-6">
+                <div
+                  className={`${getRarityColor(activeReward.rarity)} ${getRarityGlow(activeReward.rarity)} w-32 h-32 rounded-lg flex items-center justify-center border-4 ${getRarityBorder(activeReward.rarity)} transform transition-all hover:scale-105`}
+                >
+                  {activeReward.image ? (
+                    <img
+                      src={activeReward.image}
+                      alt={`Reward ${activeReward.id}`}
+                      className="w-24 h-24 object-contain"
+                    />
+                  ) : (
+                    React.cloneElement(
+                      activeReward.icon as React.ReactElement,
+                      {
+                        size: 64,
+                      }
+                    )
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-2 bg-gray-800 rounded-lg p-4 border border-gray-700">
+                <div className="flex justify-between">
+                  <span className="text-gray-400 flex items-center">
+                    <Star size={16} className="mr-1 text-yellow-400" />
+                    Rarity:
+                  </span>
+                  <span
+                    className={`font-bold ${getRarityTextColor(
+                      activeReward.rarity
+                    )}`}
+                  >
+                    {activeReward.rarity.charAt(0).toUpperCase() +
+                      activeReward.rarity.slice(1)}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 flex items-center">
+                    <Medal size={16} className="mr-1 text-yellow-400" />
+                    Level:
+                  </span>
+                  <span className="font-bold">{activeReward.position}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 flex items-center">
+                    <Crown size={16} className="mr-1 text-yellow-400" />
+                    Pass:
+                  </span>
+                  <span
+                    className={`font-bold ${
+                      activeReward.isPremium ? "text-yellow-400" : "text-white"
+                    }`}
+                  >
+                    {activeReward.isPremium ? "Premium" : "Free"}
+                  </span>
+                </div>
+              </div>
+
+              <div className="mt-6">
+                <button
+                  className={`w-full py-3 rounded-lg font-bold transition-all transform hover:scale-105 flex items-center justify-center ${
+                    levelInfo.level >= activeReward.position &&
+                    (!activeReward.isPremium || isPremium)
+                      ? "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 shadow-lg shadow-green-500/30 text-white"
+                      : "bg-gradient-to-r from-gray-600 to-gray-700 cursor-not-allowed text-gray-300"
+                  }`}
+                  disabled={
+                    levelInfo.level < activeReward.position ||
+                    (activeReward.isPremium && !isPremium)
+                  }
+                >
+                  {levelInfo.level >= activeReward.position &&
+                  (!activeReward.isPremium || isPremium) ? (
+                    <>
+                      <Check size={20} className="mr-2" />
+                      Claim Reward
+                    </>
+                  ) : levelInfo.level < activeReward.position ? (
+                    <>
+                      <Lock size={20} className="mr-2" />
+                      {`Unlock at Level ${activeReward.position}`}
+                    </>
+                  ) : activeReward.isPremium && !isPremium ? (
+                    <>
+                      <Lock size={20} className="mr-2" />
+                      Premium Only
+                    </>
+                  ) : (
+                    <>
+                      <Lock size={20} className="mr-2" />
+                      Locked
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default App;
+
