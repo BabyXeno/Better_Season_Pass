@@ -83,63 +83,366 @@ const streamers: Streamer[] = [
       "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=50&h=50&fit=crop",
   },
 ];
+// Define battle pass rewards
 const freePassRewards = [
-  { id: 1, rarity: "common", isPremium: false, position: 1, image: "/Better_Pass/images/image1.png" },
-  { id: 2, rarity: "rare", isPremium: false, position: 2, image: "/Better_Pass/images/image2.png" },
-  { id: 3, rarity: "legendary", isPremium: false, position: 3, image: "/Better_Pass/images/image3.png" },
-  { id: 4, rarity: "mythic", isPremium: false, position: 4, image: "/Better_Pass/images/image4.png" },
-  { id: 5, rarity: "common", isPremium: false, position: 5, image: "/Better_Pass/images/image5.png" },
-  { id: 6, rarity: "rare", isPremium: false, position: 6, image: "/Better_Pass/images/image6.png" },
-  { id: 7, rarity: "epic", isPremium: false, position: 7, image: "/Better_Pass/images/image7.png" },
-  { id: 8, rarity: "common", isPremium: false, position: 8, image: "/Better_Pass/images/image8.png" },
-  { id: 9, rarity: "legendary", isPremium: false, position: 9, image: "/Better_Pass/images/image9.png" },
-  { id: 10, rarity: "mythic", isPremium: false, position: 10, image: "/Better_Pass/images/image10.png" },
-  { id: 11, rarity: "rare", isPremium: false, position: 11, image: "/Better_Pass/images/image11.png" },
-  { id: 12, rarity: "common", isPremium: false, position: 12, image: "/Better_Pass/images/image12.png" },
-  { id: 13, rarity: "legendary", isPremium: false, position: 13, image: "/Better_Pass/images/image13.png" },
-  { id: 14, rarity: "epic", isPremium: false, position: 14, image: "/Better_Pass/images/image14.png" },
-  { id: 15, rarity: "rare", isPremium: false, position: 15, image: "/Better_Pass/images/image15.png" },
-  { id: 16, rarity: "mythic", isPremium: false, position: 16, image: "/Better_Pass/images/image16.png" },
-  { id: 17, rarity: "common", isPremium: false, position: 17, image: "/Better_Pass/images/image17.png" },
-  { id: 18, rarity: "legendary", isPremium: false, position: 18, image: "/Better_Pass/images/image18.png" },
-  { id: 19, rarity: "epic", isPremium: false, position: 19, image: "/Better_Pass/images/image19.png" },
-  { id: 20, rarity: "rare", isPremium: false, position: 20, image: "/Better_Pass/images/image20.png" },
-  { id: 21, rarity: "mythic", isPremium: false, position: 21, image: "/Better_Pass/images/image21.png" },
-  { id: 22, rarity: "legendary", isPremium: false, position: 22, image: "/Better_Pass/images/image22.png" },
-  { id: 23, rarity: "epic", isPremium: false, position: 23, image: "/Better_Pass/images/image23.png" },
-  { id: 24, rarity: "rare", isPremium: false, position: 24, image: "/Better_Pass/images/image24.png" },
-  { id: 25, rarity: "mythic", isPremium: false, position: 25, image: "/Better_Pass/images/image25.png" },
+  {
+    id: 1,
+    rarity: "common",
+    isPremium: false,
+    position: 1,
+    image: "/Better_Pass/images/image1.png",
+  },
+  {
+    id: 2,
+    rarity: "rare",
+    isPremium: false,
+    position: 2,
+    image: "/Better_Pass/images/image2.png",
+  },
+  {
+    id: 3,
+    rarity: "legendary",
+    isPremium: false,
+    position: 3,
+    image: "/Better_Pass/images/image3.png",
+  },
+  {
+    id: 4,
+    rarity: "mythic",
+    isPremium: false,
+    position: 4,
+    image: "/Better_Pass/images/image4.png",
+  },
+  {
+    id: 5,
+    rarity: "common",
+    isPremium: false,
+    position: 5,
+    image: "/Better_Pass/images/image5.png",
+  },
+  {
+    id: 6,
+    rarity: "rare",
+    isPremium: false,
+    position: 6,
+    image: "/Better_Pass/images/image6.png",
+  },
+  {
+    id: 7,
+    rarity: "epic",
+    isPremium: false,
+    position: 7,
+    image: "/Better_Pass/images/image7.png",
+  },
+  {
+    id: 8,
+    rarity: "common",
+    isPremium: false,
+    position: 8,
+    image: "/Better_Pass/images/image8.png",
+  },
+  {
+    id: 9,
+    rarity: "legendary",
+    isPremium: false,
+    position: 9,
+    image: "/Better_Pass/images/image9.png",
+  },
+  {
+    id: 10,
+    rarity: "mythic",
+    isPremium: false,
+    position: 10,
+    image: "/Better_Pass/images/image10.png",
+  },
+  {
+    id: 11,
+    rarity: "rare",
+    isPremium: false,
+    position: 11,
+    image: "/Better_Pass/images/image11.png",
+  },
+  {
+    id: 12,
+    rarity: "common",
+    isPremium: false,
+    position: 12,
+    image: "/Better_Pass/images/image12.png",
+  },
+  {
+    id: 13,
+    rarity: "legendary",
+    isPremium: false,
+    position: 13,
+    image: "/Better_Pass/images/image13.png",
+  },
+  {
+    id: 14,
+    rarity: "epic",
+    isPremium: false,
+    position: 14,
+    image: "/Better_Pass/images/image14.png",
+  },
+  {
+    id: 15,
+    rarity: "rare",
+    isPremium: false,
+    position: 15,
+    image: "/Better_Pass/images/image15.png",
+  },
+  {
+    id: 16,
+    rarity: "mythic",
+    isPremium: false,
+    position: 16,
+    image: "/Better_Pass/images/image16.png",
+  },
+  {
+    id: 17,
+    rarity: "common",
+    isPremium: false,
+    position: 17,
+    image: "/Better_Pass/images/image17.png",
+  },
+  {
+    id: 18,
+    rarity: "legendary",
+    isPremium: false,
+    position: 18,
+    image: "/Better_Pass/images/image18.png",
+  },
+  {
+    id: 19,
+    rarity: "epic",
+    isPremium: false,
+    position: 19,
+    image: "/Better_Pass/images/image19.png",
+  },
+  {
+    id: 20,
+    rarity: "rare",
+    isPremium: false,
+    position: 20,
+    image: "/Better_Pass/images/image20.png",
+  },
+  {
+    id: 21,
+    rarity: "mythic",
+    isPremium: false,
+    position: 21,
+    image: "/Better_Pass/images/image21.png",
+  },
+  {
+    id: 22,
+    rarity: "legendary",
+    isPremium: false,
+    position: 22,
+    image: "/Better_Pass/images/image22.png",
+  },
+  {
+    id: 23,
+    rarity: "epic",
+    isPremium: false,
+    position: 23,
+    image: "/Better_Pass/images/image23.png",
+  },
+  {
+    id: 24,
+    rarity: "rare",
+    isPremium: false,
+    position: 24,
+    image: "/Better_Pass/images/image24.png",
+  },
+  {
+    id: 25,
+    rarity: "mythic",
+    isPremium: false,
+    position: 25,
+    image: "/Better_Pass/images/image25.png",
+  },
 ];
+
 const premiumPassRewards = [
-  { id: 26, rarity: "uncommon", isPremium: true, position: 1, image: "/Better_Pass/images/image26.png" },
-  { id: 27, rarity: "epic", isPremium: true, position: 2, image: "/Better_Pass/images/image27.png" },
-  { id: 28, rarity: "mythic", isPremium: true, position: 3, image: "/Better_Pass/images/image28.png" },
-  { id: 29, rarity: "legendary", isPremium: true, position: 4, image: "/Better_Pass/images/image29.png" },
-  { id: 30, rarity: "epic", isPremium: true, position: 5, image: "/Better_Pass/images/image30.png" },
-  { id: 31, rarity: "mythic", isPremium: true, position: 6, image: "/Better_Pass/images/image31.png" },
-  { id: 32, rarity: "legendary", isPremium: true, position: 7, image: "/Better_Pass/images/image32.png" },
-  { id: 33, rarity: "epic", isPremium: true, position: 8, image: "/Better_Pass/images/image33.png" },
-  { id: 34, rarity: "mythic", isPremium: true, position: 9, image: "/Better_Pass/images/image34.png" },
-  { id: 35, rarity: "legendary", isPremium: true, position: 10, image: "/Better_Pass/images/image35.png" },
-  { id: 36, rarity: "epic", isPremium: true, position: 11, image: "/Better_Pass/images/image36.png" },
-  { id: 37, rarity: "mythic", isPremium: true, position: 12, image: "/Better_Pass/images/image37.png" },
-  { id: 38, rarity: "legendary", isPremium: true, position: 13, image: "/Better_Pass/images/image38.png" },
-  { id: 39, rarity: "epic", isPremium: true, position: 14, image: "/Better_Pass/images/image39.png" },
-  { id: 40, rarity: "mythic", isPremium: true, position: 15, image: "/Better_Pass/images/image40.png" },
-  { id: 41, rarity: "legendary", isPremium: true, position: 16, image: "/Better_Pass/images/image41.png" },
-  { id: 42, rarity: "epic", isPremium: true, position: 17, image: "/Better_Pass/images/image42.png" },
-  { id: 43, rarity: "mythic", isPremium: true, position: 18, image: "/Better_Pass/images/image43.png" },
-  { id: 44, rarity: "legendary", isPremium: true, position: 19, image: "/Better_Pass/images/image44.png" },
-  { id: 45, rarity: "epic", isPremium: true, position: 20, image: "/Better_Pass/images/image45.png" },
-  { id: 46, rarity: "mythic", isPremium: true, position: 21, image: "/Better_Pass/images/image46.png" },
-  { id: 47, rarity: "legendary", isPremium: true, position: 22, image: "/Better_Pass/images/image47.png" },
-  { id: 48, rarity: "epic", isPremium: true, position: 23, image: "/Better_Pass/images/image48.png" },
-  { id: 49, rarity: "mythic", isPremium: true, position: 24, image: "/Better_Pass/images/image49.png" },
-  { id: 50, rarity: "legendary", isPremium: true, position: 25, image: "/Better_Pass/images/image50.png" },
+  {
+    id: 26,
+    rarity: "uncommon",
+    isPremium: true,
+    position: 1,
+    image: "/Better_Pass/images/image26.png",
+  },
+  {
+    id: 27,
+    rarity: "epic",
+    isPremium: true,
+    position: 2,
+    image: "/Better_Pass/images/image27.png",
+  },
+  {
+    id: 28,
+    rarity: "mythic",
+    isPremium: true,
+    position: 3,
+    image: "/Better_Pass/images/image28.png",
+  },
+  {
+    id: 29,
+    rarity: "legendary",
+    isPremium: true,
+    position: 4,
+    image: "/Better_Pass/images/image29.png",
+  },
+  {
+    id: 30,
+    rarity: "epic",
+    isPremium: true,
+    position: 5,
+    image: "/Better_Pass/images/image30.png",
+  },
+  {
+    id: 31,
+    rarity: "mythic",
+    isPremium: true,
+    position: 6,
+    image: "/Better_Pass/images/image31.png",
+  },
+  {
+    id: 32,
+    rarity: "legendary",
+    isPremium: true,
+    position: 7,
+    image: "/Better_Pass/images/image32.png",
+  },
+  {
+    id: 33,
+    rarity: "epic",
+    isPremium: true,
+    position: 8,
+    image: "/Better_Pass/images/image33.png",
+  },
+  {
+    id: 34,
+    rarity: "mythic",
+    isPremium: true,
+    position: 9,
+    image: "/Better_Pass/images/image34.png",
+  },
+  {
+    id: 35,
+    rarity: "legendary",
+    isPremium: true,
+    position: 10,
+    image: "/Better_Pass/images/image35.png",
+  },
+  {
+    id: 36,
+    rarity: "epic",
+    isPremium: true,
+    position: 11,
+    image: "/Better_Pass/images/image36.png",
+  },
+  {
+    id: 37,
+    rarity: "mythic",
+    isPremium: true,
+    position: 12,
+    image: "/Better_Pass/images/image37.png",
+  },
+  {
+    id: 38,
+    rarity: "legendary",
+    isPremium: true,
+    position: 13,
+    image: "/Better_Pass/images/image38.png",
+  },
+  {
+    id: 39,
+    rarity: "epic",
+    isPremium: true,
+    position: 14,
+    image: "/Better_Pass/images/image39.png",
+  },
+  {
+    id: 40,
+    rarity: "mythic",
+    isPremium: true,
+    position: 15,
+    image: "/Better_Pass/images/image40.png",
+  },
+  {
+    id: 41,
+    rarity: "legendary",
+    isPremium: true,
+    position: 16,
+    image: "/Better_Pass/images/image41.png",
+  },
+  {
+    id: 42,
+    rarity: "epic",
+    isPremium: true,
+    position: 17,
+    image: "/Better_Pass/images/image42.png",
+  },
+  {
+    id: 43,
+    rarity: "mythic",
+    isPremium: true,
+    position: 18,
+    image: "/Better_Pass/images/image43.png",
+  },
+  {
+    id: 44,
+    rarity: "legendary",
+    isPremium: true,
+    position: 19,
+    image: "/Better_Pass/images/image44.png",
+  },
+  {
+    id: 45,
+    rarity: "epic",
+    isPremium: true,
+    position: 20,
+    image: "/Better_Pass/images/image45.png",
+  },
+  {
+    id: 46,
+    rarity: "mythic",
+    isPremium: true,
+    position: 21,
+    image: "/Better_Pass/images/image46.png",
+  },
+  {
+    id: 47,
+    rarity: "legendary",
+    isPremium: true,
+    position: 22,
+    image: "/Better_Pass/images/image47.png",
+  },
+  {
+    id: 48,
+    rarity: "epic",
+    isPremium: true,
+    position: 23,
+    image: "/Better_Pass/images/image48.png",
+  },
+  {
+    id: 49,
+    rarity: "mythic",
+    isPremium: true,
+    position: 24,
+    image: "/Better_Pass/images/image49.png",
+  },
+  {
+    id: 50,
+    rarity: "legendary",
+    isPremium: true,
+    position: 25,
+    image: "/Better_Pass/images/image50.png",
+  },
 ];
 function App() {
   const [currentLevel] = useState(5);
   const [goldAmount] = useState(3580);
+  const [showBundleModal, setShowBundleModal] = useState(false);
   const [shopBundleTime, setShopBundleTime] = useState("1h 50m 54s");
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -150,11 +453,11 @@ function App() {
   });
   const [missionsBoxPosition, setMissionsBoxPosition] = useState({
     top: 200,
-    left: 300,
+    left: 295,
   });
   const [xpBoostBoxPosition, setXpBoostBoxPosition] = useState({
     top: 440,
-    left: 300,
+    left: 295,
   });
   const [playerInfoPosition, setPlayerInfoPosition] = useState({
     top: 200,
@@ -205,6 +508,12 @@ function App() {
   const [seasonEnds, setSeasonEnds] = useState("82d 22h 35m 0s");
   const [exclusiveOffersTime, setExclusiveOffersTime] =
     useState("04h 1m 50s");
+  const [gameBannerImage, setGameBannerImage] =
+    useState("/Better_Pass/images/default_banner.png");
+  const [battlePassTitlePosition, setBattlePassTitlePosition] = useState({
+    top: 395,
+    left: 487,
+  });
 
   const toggleClassicDropdown = () => {
     setIsClassicDropdownOpen(!isClassicDropdownOpen);
@@ -341,9 +650,9 @@ function App() {
     let exclusiveOffersInterval: any;
 
     const calculateTimeLeft = (timeString: string) => {
-      const [hours, minutes, seconds] = timeString.split(/[hms ]/).filter(
-        (item) => item !== ""
-      );
+      const [hours, minutes, seconds] = timeString
+        .split(/[hms ]/)
+        .filter((item) => item !== "");
 
       let totalSeconds =
         parseInt(hours || "0") * 3600 +
@@ -458,7 +767,10 @@ function App() {
             />
             <span className="text-yellow-400 font-bold">{goldAmount}</span>
           </div>
-          <button className="bg-purple-700 hover:bg-purple-800 px-4 py-1 rounded-md flex items-center">
+          <button
+            className="bg-purple-700 hover:bg-purple-800 px-4 py-1 rounded-md flex items-center"
+            onClick={() => setShowBundleModal(true)}
+          >
             <ShoppingCart size={16} className="mr-2" />
             SHOP
             <span className="text-xs ml-2 text-gray-300">
@@ -516,7 +828,6 @@ function App() {
                 </div>
               ))}
             </div>
-
             {/* Featured YouTuber */}
             <div className="mt-4 pt-4 border-t border-gray-700">
               <h3 className="text-sm font-bold mb-2">Featured YouTuber</h3>
@@ -663,24 +974,43 @@ function App() {
 
         {/* Center Column - Battle Pass */}
         <div className="col-span-6">
+          {/* Game Banner */}
+          <div
+            className="relative mx-auto mb-4"
+            style={{ width: "400px", height: "144px" }}
+          >
+            <img
+              src="/Better_Pass/images/banner.png"
+              alt="Game Banner"
+              className="w-full h-full object-cover rounded-md"
+            />
+          </div>
+
           {/* Battle Pass Header */}
           <div
             style={{
               position: "absolute",
-              top: battlePassPosition.top,
-              left: battlePassPosition.left,
+              top: battlePassTitlePosition.top,
+              left: battlePassTitlePosition.left,
             }}
           >
-            <h2 className="text-xl font-bold flex items-center justify-center">
+            <div
+              style={{
+                transform: "rotate(-90deg)",
+                transformOrigin: "top left",
+                whiteSpace: "nowrap",
+              }}
+              className="text-xl font-bold flex items-center justify-center"
+            >
               <Shield size={20} className="mr-2 text-green-400" />
               <span className="text-yellow-500">SurvivX.io Pass 1</span>
-            </h2>
+            </div>
           </div>
         </div>
 
         {/* Battle Pass Progress */}
         <div
-          className="bg-black p-4 rounded-lg border border-gray-80 mb-4"
+          className="bg-black p-4 rounded-lg border border-gray-800 mb-4"
           style={{
             position: "absolute",
             top: battlePassRewardsPosition.top,
@@ -698,8 +1028,8 @@ function App() {
                 (freeReward && isLevelVisible(freeReward.position)) ||
                 (premiumReward && isLevelVisible(premiumReward.position));
               let leftPosition = `${
-                (rewardWidth * index) / (rewardWidth * 24)
-              * 100}%`;
+                (rewardWidth * index) / (rewardWidth * 24) * 100
+              }%`;
 
               return isVisible ? (
                 <div
@@ -1121,6 +1451,117 @@ function App() {
         </div>
       )}
 
+      {/* Premium Bundles Modal */}
+      {showBundleModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-6 w-[800px] max-w-[90%] relative">
+            <button
+              className="absolute top-2 right-2 text-gray-400 hover:text-white"
+              onClick={() => setShowBundleModal(false)}
+            >
+              <X size={24} />
+            </button>
+            <h2 className="text-2xl text-center mb-4 text-white">
+              EXCLUSIVE OFFERS
+            </h2>
+            <p className="text-center text-yellow-400 mb-6">
+              New Bundles: {shopBundleTime}
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Bundle 1 */}
+              <div className="border-2 border-purple-500 rounded-lg p-4 relative">
+                <div className="absolute -top-2 -left-2 bg-yellow-500 transform rotate-[-45deg] px-2 py-1 text-black font-bold">
+                  5% OFF
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Use actual premium rewards here */}
+                  <div className="border-2 border-green-500 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[0].image} // Premium Reward 1
+                      alt="Premium Reward 1"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[1].image} // Premium Reward 2
+                      alt="Premium Reward 2"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="border-2 border-purple-500 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[2].image} // Premium Reward 3
+                      alt="Premium Reward 3"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-center">
+                  <button className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-4">
+                    <img
+                      src="/Better_Pass/images/imagegp.png"
+                      alt="GP"
+                      className="w-5 h-5 mr-2"
+                    />
+                    <span className="text-yellow-400 font-bold">1111</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Bundle 2 */}
+              <div className="border-2 border-purple-500 rounded-lg p-4 relative">
+                <div className="absolute -top-2 -left-2 bg-yellow-500 transform rotate-[-45deg] px-2 py-1 text-black font-bold">
+                  10% OFF
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {/* Use actual premium rewards here */}
+                  <div className="border-2 border-green-500 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[3].image} // Premium Reward 4
+                      alt="Premium Reward 4"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[4].image} // Premium Reward 5
+                      alt="Premium Reward 5"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="border-2 border-teal-400 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[5].image} // Premium Reward 6
+                      alt="Premium Reward 6"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="col-start-2 border-2 border-purple-500 p-2 flex justify-center items-center h-16">
+                    <img
+                      src={premiumPassRewards[6].image} // Premium Reward 7
+                      alt="Premium Reward 7"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-center">
+                  <button className="flex items-center justify-center bg-gray-700 hover:bg-gray-600 rounded-md py-2 px-4">
+                    <img
+                      src="/Better_Pass/images/imagegp.png"
+                      alt="GP"
+                      className="w-5 h-5 mr-2"
+                    />
+                    <span className="text-yellow-400 font-bold">1323</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Reward Details Modal */}
       {activeReward && (
         <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-40 backdrop-blur-sm">
@@ -1238,4 +1679,3 @@ function App() {
 }
 
 export default App;
-
